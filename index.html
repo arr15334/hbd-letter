@@ -15,15 +15,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            /* Changed to min-height and overflow-y: auto to prevent mobile clipping */
+            min-height: 100vh;
             margin: 0;
-            /* Animated countdown background */
             background: linear-gradient(45deg, #2b1055, #ff69b4, #7597de, #ff1493);
             background-size: 400% 400%;
             animation: gradientBG 10s ease infinite;
             color: white;
             text-align: center;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto; 
             transition: background 0.5s ease, background-color 1s ease; 
         }
 
@@ -33,14 +34,12 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- New Theme for the Birthday Section --- */
         body.birthday-theme {
-            background: #ffb6c1 !important; /* Force override game colors */
+            background: #ffb6c1 !important; 
             color: #282c34; 
             animation: none;
         }
 
-        /* Screen shake effect for when she catches the button */
         .shake {
             animation: screenShake 0.3s ease-in-out;
         }
@@ -51,7 +50,14 @@
             40%, 80% { transform: translateX(10px); }
         }
 
-        /* --- View 1: Countdown Styles --- */
+        /* Container Padding for smaller screens */
+        #countdown-view, #birthday-view {
+            padding: 20px;
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 800px;
+        }
+
         #countdown-view {
             display: block;
         }
@@ -79,6 +85,7 @@
             color: #ffff00; 
         }
 
+        /* Made the iframe scalable */
         .iframe-wrapper {
             border: 6px dashed #ff69b4;
             border-radius: 20px;
@@ -87,11 +94,21 @@
             display: inline-block;
             margin: 15px 0;
             box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .iframe-wrapper iframe {
+            width: 100%;
+            max-width: 480px;
+            height: auto;
+            aspect-ratio: 5 / 4;
         }
 
         #countdown {
             display: flex;
             justify-content: center;
+            flex-wrap: wrap; /* Allows boxes to wrap on extremely narrow screens */
             gap: 20px;
             font-size: 2rem;
             margin-top: 20px;
@@ -110,6 +127,7 @@
             border: 4px solid #fff;
             box-shadow: 0 10px 20px rgba(0,0,0,0.3), inset 0 0 15px rgba(255,255,255,0.8);
             animation: heartbeat 1.5s infinite;
+            box-sizing: border-box;
         }
 
         .time-box:nth-child(1) { animation-delay: 0.0s; }
@@ -127,11 +145,11 @@
             letter-spacing: 1px;
         }
 
-        /* --- View 2: Game Styles --- */
         #game-view {
             display: none;
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
+            overflow: hidden; /* Keep the jumping button inside */
         }
         
         #catch-btn {
@@ -142,27 +160,22 @@
             padding: 18px 36px;
             font-size: 1.6rem;
             font-weight: bold;
-            /* Cursive font for that extra dramatic flair */
             font-family: 'Pacifico', cursive; 
-            /* Beautiful neon gradient */
             background: linear-gradient(135deg, #ff007f 0%, #ff4500 100%);
             color: white;
             border: 4px solid #fff;
             border-radius: 50px;
             cursor: pointer;
             box-shadow: 0 8px 25px rgba(255, 0, 127, 0.5), inset 0 0 10px rgba(255,255,255,0.4);
-            /* Smooth transitions for moving around */
             transition: top 0.2s ease, left 0.2s ease, transform 0.1s ease, background 0.3s;
         }
 
-        /* Make it pop visually on hover */
         #catch-btn:hover {
             transform: translate(-50%, -50%) scale(1.1);
             background: linear-gradient(135deg, #ff4500 0%, #ff007f 100%);
             box-shadow: 0 12px 30px rgba(255, 0, 127, 0.8);
         }
 
-        /* --- View 3: Birthday Styles --- */
         #birthday-view {
             display: none;
             z-index: 10;
@@ -176,6 +189,7 @@
         .options-container {
             display: flex;
             justify-content: center;
+            flex-wrap: wrap; /* Allows buttons to stack on mobile */
             gap: 20px;
             margin-top: 30px;
         }
@@ -189,6 +203,7 @@
             cursor: pointer;
             font-weight: bold;
             transition: transform 0.2s, background 0.2s, color 0.2s;
+            max-width: 100%; /* Prevent stretching off-screen */
         }
         .option-btn:hover {
             background: #ff69b4;
@@ -207,6 +222,50 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.08); }
         }
+
+        /* --- MOBILE RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 768px) {
+            #countdown-view h1 { font-size: 2.5rem; }
+            #countdown-view h2 { font-size: 1rem; }
+            .birthday-title { font-size: 2.8rem; }
+            
+            #countdown { gap: 10px; }
+            
+            .time-box {
+                min-width: 75px;
+                height: 75px;
+                padding: 15px;
+            }
+            .time-box div { font-size: 1.5rem; }
+            .time-box span { font-size: 0.7rem; }
+
+            .options-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .option-btn {
+                width: 90%;
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+            #catch-btn {
+                font-size: 1.3rem;
+                padding: 15px 30px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            #countdown-view h1 { font-size: 2rem; }
+            .birthday-title { font-size: 2.2rem; }
+            
+            .time-box {
+                min-width: 65px;
+                height: 65px;
+                padding: 10px;
+            }
+            .time-box div { font-size: 1.2rem; }
+            .time-box span { font-size: 0.6rem; }
+        }
     </style>
 </head>
 <body>
@@ -216,7 +275,7 @@
         <h2 class="sarcastic-subtitle">I have an amazing surprise for you</h2>
         
         <div class="iframe-wrapper">
-            <iframe src="https://giphy.com/embed/5VKbvrjxpVJCM" width="480" height="384" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+            <iframe src="https://giphy.com/embed/5VKbvrjxpVJCM" style="border: 0;" class="giphy-embed" allowFullScreen></iframe>
         </div>
         
         <h2>but to help you practice your patience skills, you must wait:</h2>
@@ -268,48 +327,41 @@
             document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
         }, 1000);
 
-        // Helper to switch from countdown to game
         function activateGameView() {
             document.getElementById("countdown-view").style.display = "none";
             document.getElementById("game-view").style.display = "block";
             
-            // Turn off countdown gradient and set initial game color
             document.body.style.animation = "none";
-            document.body.style.background = "#8e44ad"; /* Start with a deep cheesy purple */
+            document.body.style.background = "#8e44ad"; 
         }
 
         // --- 2. GAME LOGIC ---
         let clickCount = 0;
         const catchBtn = document.getElementById("catch-btn");
 
-        // A collection of bright, colorful backgrounds for every click
         const gameBackgrounds = [
-            "#ff758c", // Soft vibrant red
-            "#20bf6b", // Pastel green
-            "#f7b731", // Happy yellow
-            "#3867d6", // Intense romantic blue
-            "#eb3b5a", // Crimson pink
-            "#fa8231", // Bright orange
-            "#05c46b"  // Neon mint
+            "#ff758c", 
+            "#20bf6b", 
+            "#f7b731", 
+            "#3867d6", 
+            "#eb3b5a", 
+            "#fa8231", 
+            "#05c46b"  
         ];
 
         catchBtn.addEventListener("click", function() {
             if (clickCount < 7) {
-                // Game continues: Jump button
                 const randomTop = Math.floor(Math.random() * 70) + 10;
                 const randomLeft = Math.floor(Math.random() * 70) + 10;
                 
                 catchBtn.style.top = randomTop + "%";
                 catchBtn.style.left = randomLeft + "%";
                 
-                // 1. Change app background color dynamically
                 document.body.style.background = gameBackgrounds[clickCount % gameBackgrounds.length];
 
-                // 2. Visual Effect: Add a quick screen shake
                 document.body.classList.add("shake");
                 setTimeout(() => document.body.classList.remove("shake"), 300);
 
-                // 3. Visual Effect: Small burst of confetti right under her cursor
                 confetti({
                     particleCount: 20,
                     spread: 60,
@@ -330,7 +382,6 @@
                 
                 clickCount++;
             } else {
-                // Game Over: Activate Birthday View
                 activateBirthdayView();
             }
         });
@@ -340,10 +391,8 @@
             document.getElementById("game-view").style.display = "none";
             document.getElementById("birthday-view").style.display = "block";
             
-            // Apply the final pink theme class to the body
             document.body.classList.add('birthday-theme');
             
-            // Start the Confetti "Rain" effect
             startConfettiRain();
         }
 
