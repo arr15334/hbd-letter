@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>June 7th Birthday Surprise</title>
+    <title>Noemis Birthday</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         /* Base Styling */
@@ -121,7 +121,7 @@
 <body>
 
     <div id="countdown-view">
-        <h1>Countdown to June 7th</h1>
+        <h1>Countdown...</h1>
         <div id="countdown">
             <div class="time-box"><div id="days">00</div><span>Days</span></div>
             <div class="time-box"><div id="hours">00</div><span>Hours</span></div>
@@ -147,7 +147,7 @@
     <script>
         // --- 1. COUNTDOWN LOGIC ---
         // Set for June 7, 2026 at midnight. (Month is 0-indexed: 5 = June)
-        const targetDate = new Date(2026, 5, 2, 0, 0, 0).getTime();
+        const targetDate = new Date(2026, 5, 7, 0, 0, 0).getTime();
 
         const timer = setInterval(function() {
             const now = new Date().getTime();
@@ -183,7 +183,7 @@
         const catchBtn = document.getElementById("catch-btn");
 
         catchBtn.addEventListener("click", function() {
-            if (clickCount < 3) {
+            if (clickCount < 7) {
                 // Game continues: Jump button
                 const randomTop = Math.floor(Math.random() * 70) + 10;
                 const randomLeft = Math.floor(Math.random() * 70) + 10;
@@ -191,7 +191,15 @@
                 catchBtn.style.top = randomTop + "%";
                 catchBtn.style.left = randomLeft + "%";
                 
-                const phrases = ["Too slow!", "Almost!", "Try again!"];
+                const phrases = [
+                    "Too slow!",
+                    "Almost!",
+                    "Try again!",
+                    "Ancora",
+                    "One More Time - Daft Punk",
+                    "Are you counting?",
+                    "Otra vez"
+                ];
                 catchBtn.innerText = phrases[clickCount];
                 
                 clickCount++;
@@ -216,7 +224,7 @@
 
         function startConfettiRain() {
             // Set a duration for how long new confetti keeps spawning (e.g., 15 seconds)
-            const duration = 15 * 1000; 
+            const duration = 29 * 1000; 
             const animationEnd = Date.now() + duration;
             
             // Define a repeating interval to fire small bursts from random tops
